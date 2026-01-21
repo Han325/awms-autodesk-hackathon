@@ -1,0 +1,432 @@
+{
+	"info": {
+	  "_postman_id": "3f096068-e39e-4f45-85a9-b11ff7c698d1",
+	  "name": "ACC Hack",
+	  "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+	  "_exporter_id": "37992881",
+	  "_collection_link": "https://go.postman.co/collection/37992881-3f096068-e39e-4f45-85a9-b11ff7c698d1?source=collection_link"
+	},
+	"item": [
+	  {
+		"name": "Get Temperature and Humidity (Office)",
+		"request": {
+		  "method": "GET",
+		  "header": [],
+		  "url": {
+			"raw": "https://apco-demo.agile.co.id/api/device/stream/data/1",
+			"protocol": "https",
+			"host": [
+			  "apco-demo",
+			  "agile",
+			  "co",
+			  "id"
+			],
+			"path": [
+			  "api",
+			  "device",
+			  "stream",
+			  "data",
+			  "1"
+			]
+		  }
+		},
+		"response": [
+		  {
+			"name": "Get Temperature and Humidity (Office)",
+			"originalRequest": {
+			  "method": "GET",
+			  "header": [],
+			  "url": {
+				"raw": "https://apco-demo.agile.co.id/api/device/stream/data/1",
+				"protocol": "https",
+				"host": [
+				  "apco-demo",
+				  "agile",
+				  "co",
+				  "id"
+				],
+				"path": [
+				  "api",
+				  "device",
+				  "stream",
+				  "data",
+				  "1"
+				]
+			  }
+			},
+			"status": "OK",
+			"code": 200,
+			"_postman_previewlanguage": null,
+			"header": [
+			  {
+				"key": "Server",
+				"value": "nginx/1.18.0 (Ubuntu)"
+			  },
+			  {
+				"key": "Content-Type",
+				"value": "application/json"
+			  },
+			  {
+				"key": "Transfer-Encoding",
+				"value": "chunked"
+			  },
+			  {
+				"key": "Connection",
+				"value": "keep-alive"
+			  },
+			  {
+				"key": "Cache-Control",
+				"value": "no-cache, private"
+			  },
+			  {
+				"key": "Date",
+				"value": "Wed, 21 Jan 2026 02:33:03 GMT"
+			  },
+			  {
+				"key": "Access-Control-Allow-Origin",
+				"value": "*"
+			  }
+			],
+			"cookie": [],
+			"body": "{\n    \"sensor_data\": {\n        \"humidity\": {\n            \"value\": \"53.10\",\n            \"unit\": \"%\",\n            \"created_at\": \"2026-01-20T15:44:27.000000Z\",\n            \"updated_at\": \"2026-01-20T15:44:27.000000Z\"\n        },\n        \"temperature\": {\n            \"value\": \"23.60\",\n            \"unit\": \"Ã‚Â°C\",\n            \"created_at\": \"2026-01-20T15:44:26.000000Z\",\n            \"updated_at\": \"2026-01-20T15:44:26.000000Z\"\n        }\n    }\n}"
+		  }
+		]
+	  },
+	  {
+		"name": "Get Temperature and Humidity (Factory)",
+		"request": {
+		  "method": "GET",
+		  "header": [],
+		  "url": {
+			"raw": "https://apco-demo.agile.co.id/api/device/stream/data/2",
+			"protocol": "https",
+			"host": [
+			  "apco-demo",
+			  "agile",
+			  "co",
+			  "id"
+			],
+			"path": [
+			  "api",
+			  "device",
+			  "stream",
+			  "data",
+			  "2"
+			]
+		  }
+		},
+		"response": [
+		  {
+			"name": "Get Temperature and Humidity (Factory)",
+			"originalRequest": {
+			  "method": "GET",
+			  "header": [],
+			  "url": {
+				"raw": "https://apco-demo.agile.co.id/api/device/stream/data/2",
+				"protocol": "https",
+				"host": [
+				  "apco-demo",
+				  "agile",
+				  "co",
+				  "id"
+				],
+				"path": [
+				  "api",
+				  "device",
+				  "stream",
+				  "data",
+				  "2"
+				]
+			  }
+			},
+			"status": "OK",
+			"code": 200,
+			"_postman_previewlanguage": null,
+			"header": [
+			  {
+				"key": "Server",
+				"value": "nginx/1.18.0 (Ubuntu)"
+			  },
+			  {
+				"key": "Content-Type",
+				"value": "application/json"
+			  },
+			  {
+				"key": "Transfer-Encoding",
+				"value": "chunked"
+			  },
+			  {
+				"key": "Connection",
+				"value": "keep-alive"
+			  },
+			  {
+				"key": "Cache-Control",
+				"value": "no-cache, private"
+			  },
+			  {
+				"key": "Date",
+				"value": "Wed, 21 Jan 2026 02:33:15 GMT"
+			  },
+			  {
+				"key": "Access-Control-Allow-Origin",
+				"value": "*"
+			  }
+			],
+			"cookie": [],
+			"body": "{\n    \"sensor_data\": {\n        \"humidity\": {\n            \"value\": \"25.00\",\n            \"unit\": \"%\",\n            \"created_at\": \"2026-01-21T02:33:07.000000Z\",\n            \"updated_at\": \"2026-01-21T02:33:07.000000Z\"\n        },\n        \"temperature\": {\n            \"value\": \"39.60\",\n            \"unit\": \"C\",\n            \"created_at\": \"2026-01-21T02:33:14.000000Z\",\n            \"updated_at\": \"2026-01-21T02:33:14.000000Z\"\n        }\n    }\n}"
+		  }
+		]
+	  },
+	  {
+		"name": "Get Light (On/Off)",
+		"request": {
+		  "method": "GET",
+		  "header": [],
+		  "url": {
+			"raw": "https://apco-demo.agile.co.id/api/device/light/state/",
+			"protocol": "https",
+			"host": [
+			  "apco-demo",
+			  "agile",
+			  "co",
+			  "id"
+			],
+			"path": [
+			  "api",
+			  "device",
+			  "light",
+			  "state",
+			  ""
+			]
+		  }
+		},
+		"response": [
+		  {
+			"name": "Get Light (On/Off)",
+			"originalRequest": {
+			  "method": "GET",
+			  "header": [],
+			  "url": {
+				"raw": "https://apco-demo.agile.co.id/api/device/light/state/",
+				"protocol": "https",
+				"host": [
+				  "apco-demo",
+				  "agile",
+				  "co",
+				  "id"
+				],
+				"path": [
+				  "api",
+				  "device",
+				  "light",
+				  "state",
+				  ""
+				]
+			  }
+			},
+			"status": "OK",
+			"code": 200,
+			"_postman_previewlanguage": null,
+			"header": [
+			  {
+				"key": "Server",
+				"value": "nginx/1.18.0 (Ubuntu)"
+			  },
+			  {
+				"key": "Content-Type",
+				"value": "application/json"
+			  },
+			  {
+				"key": "Transfer-Encoding",
+				"value": "chunked"
+			  },
+			  {
+				"key": "Connection",
+				"value": "keep-alive"
+			  },
+			  {
+				"key": "Cache-Control",
+				"value": "no-cache, private"
+			  },
+			  {
+				"key": "Date",
+				"value": "Wed, 21 Jan 2026 02:33:19 GMT"
+			  },
+			  {
+				"key": "Access-Control-Allow-Origin",
+				"value": "*"
+			  }
+			],
+			"cookie": [],
+			"body": "{\n    \"id\": 33999,\n    \"device_id\": 1,\n    \"device_stream_key\": \"light\",\n    \"device_stream_value\": \"on\",\n    \"device_stream_unit\": \"\",\n    \"device_stream_message\": \"on\",\n    \"created_at\": null,\n    \"updated_at\": null\n}"
+		  }
+		]
+	  },
+	  {
+		"name": "Get Door (On/Off)",
+		"request": {
+		  "method": "GET",
+		  "header": [],
+		  "url": {
+			"raw": "https://apco-demo.agile.co.id/api/device/door/state",
+			"protocol": "https",
+			"host": [
+			  "apco-demo",
+			  "agile",
+			  "co",
+			  "id"
+			],
+			"path": [
+			  "api",
+			  "device",
+			  "door",
+			  "state"
+			]
+		  }
+		},
+		"response": [
+		  {
+			"name": "Get Door (On/Off)",
+			"originalRequest": {
+			  "method": "GET",
+			  "header": [],
+			  "url": {
+				"raw": "https://apco-demo.agile.co.id/api/device/door/state",
+				"protocol": "https",
+				"host": [
+				  "apco-demo",
+				  "agile",
+				  "co",
+				  "id"
+				],
+				"path": [
+				  "api",
+				  "device",
+				  "door",
+				  "state"
+				]
+			  }
+			},
+			"status": "OK",
+			"code": 200,
+			"_postman_previewlanguage": null,
+			"header": [
+			  {
+				"key": "Server",
+				"value": "nginx/1.18.0 (Ubuntu)"
+			  },
+			  {
+				"key": "Content-Type",
+				"value": "application/json"
+			  },
+			  {
+				"key": "Transfer-Encoding",
+				"value": "chunked"
+			  },
+			  {
+				"key": "Connection",
+				"value": "keep-alive"
+			  },
+			  {
+				"key": "Cache-Control",
+				"value": "no-cache, private"
+			  },
+			  {
+				"key": "Date",
+				"value": "Wed, 21 Jan 2026 02:33:24 GMT"
+			  },
+			  {
+				"key": "Access-Control-Allow-Origin",
+				"value": "*"
+			  }
+			],
+			"cookie": [],
+			"body": "{\n    \"id\": 33998,\n    \"device_id\": 1,\n    \"device_stream_key\": \"door\",\n    \"device_stream_value\": \"close\",\n    \"device_stream_unit\": \"\",\n    \"device_stream_message\": \"close\",\n    \"created_at\": null,\n    \"updated_at\": null\n}"
+		  }
+		]
+	  },
+	  {
+		"name": "Get Conveyer State",
+		"request": {
+		  "method": "GET",
+		  "header": [],
+		  "url": {
+			"raw": "https://apco-demo.agile.co.id/api/device/door/state",
+			"protocol": "https",
+			"host": [
+			  "apco-demo",
+			  "agile",
+			  "co",
+			  "id"
+			],
+			"path": [
+			  "api",
+			  "device",
+			  "door",
+			  "state"
+			]
+		  }
+		},
+		"response": [
+		  {
+			"name": "Get Conveyer State",
+			"originalRequest": {
+			  "method": "GET",
+			  "header": [],
+			  "url": {
+				"raw": "https://apco-demo.agile.co.id/api/device/conveyor/state",
+				"protocol": "https",
+				"host": [
+				  "apco-demo",
+				  "agile",
+				  "co",
+				  "id"
+				],
+				"path": [
+				  "api",
+				  "device",
+				  "conveyor",
+				  "state"
+				]
+			  }
+			},
+			"status": "OK",
+			"code": 200,
+			"_postman_previewlanguage": null,
+			"header": [
+			  {
+				"key": "Server",
+				"value": "nginx/1.18.0 (Ubuntu)"
+			  },
+			  {
+				"key": "Content-Type",
+				"value": "application/json"
+			  },
+			  {
+				"key": "Transfer-Encoding",
+				"value": "chunked"
+			  },
+			  {
+				"key": "Connection",
+				"value": "keep-alive"
+			  },
+			  {
+				"key": "Cache-Control",
+				"value": "no-cache, private"
+			  },
+			  {
+				"key": "Date",
+				"value": "Wed, 21 Jan 2026 02:33:29 GMT"
+			  },
+			  {
+				"key": "Access-Control-Allow-Origin",
+				"value": "*"
+			  }
+			],
+			"cookie": [],
+			"body": "{\n    \"id\": 34363,\n    \"device_id\": 2,\n    \"device_stream_key\": \"conveyor\",\n    \"device_stream_value\": \"stopped\",\n    \"device_stream_unit\": null,\n    \"device_stream_message\": \"value conveyor from sensor is : stopped\",\n    \"created_at\": \"2026-01-21T01:52:55.000000Z\",\n    \"updated_at\": \"2026-01-21T01:52:55.000000Z\"\n}"
+		  }
+		]
+	  }
+	]
+  }
