@@ -10,9 +10,17 @@ function Dashboard({ sensors, notifications, workOrders, onRefreshNotifications 
           <h1 className="text-3xl font-bold text-blue-600">
             Alert & Work Order Management System
           </h1>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-            <span className="text-sm text-gray-600">Live</span>
+          <div className="flex items-center gap-4">
+            <a
+              href="/admin"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+            >
+              Admin Panel
+            </a>
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="text-sm text-gray-600">Live</span>
+            </div>
           </div>
         </header>
 

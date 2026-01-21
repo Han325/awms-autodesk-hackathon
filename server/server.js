@@ -12,9 +12,15 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/api', apiRoutes);
+
+// Serve static files from client/dist
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.use('/api', apiRoutes);
+// Handle client-side routing - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 // Poll sensors every 5 seconds
 const POLL_INTERVAL = 5000;

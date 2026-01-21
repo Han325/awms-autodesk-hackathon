@@ -33,6 +33,16 @@ router.post('/notifications/:id/acknowledge', (req, res) => {
   }
 });
 
+// Unacknowledge notification
+router.post('/notifications/:id/unacknowledge', (req, res) => {
+  const notification = notificationService.unacknowledgeNotification(parseFloat(req.params.id));
+  if (notification) {
+    res.json(notification);
+  } else {
+    res.status(404).json({ error: 'Notification not found' });
+  }
+});
+
 // Get work orders
 router.get('/work-orders', (req, res) => {
   const status = req.query.status;

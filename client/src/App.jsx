@@ -1,8 +1,34 @@
+import { useState, useEffect } from 'react';
 import { usePolling } from './hooks/usePolling';
 import { fetchSensors, fetchNotifications, fetchWorkOrders } from './utils/api';
 import Dashboard from './components/Dashboard';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    // Listen for popstate (back/forward buttons)
+    window.addEventListener('popstate', handleLocationChange);
+    
+    // Intercept link clicks
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A' && e.target.getAttribute('href')?.startsWith('/')) {
+        e.preventDefault();
+        window.history.pushState({}, '', e.target.getAttribute('href'));
+        handleLocationChange();
+      }
+    });
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
+
   const { data: sensors, loading: sensorsLoading } = usePolling(fetchSensors, 3000);
   const { data: notifications, loading: notificationsLoading } = usePolling(fetchNotifications, 3000);
   const { data: workOrders, loading: workOrdersLoading } = usePolling(() => fetchWorkOrders('open'), 3000);
@@ -10,6 +36,10 @@ function App() {
   const handleRefreshNotifications = () => {
     // The polling hook will automatically refresh on next interval
   };
+
+  if (currentPath === '/admin') {
+    return <AdminDashboard />;
+  }
 
   if (sensorsLoading && sensors === null) {
     return (

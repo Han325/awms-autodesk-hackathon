@@ -56,6 +56,14 @@ function acknowledgeNotification(id) {
   return notification;
 }
 
+function unacknowledgeNotification(id) {
+  const notification = notifications.find(n => n.id === id);
+  if (notification) {
+    notification.acknowledged = false;
+  }
+  return notification;
+}
+
 function getUnacknowledgedCount() {
   return notifications.filter(n => !n.acknowledged).length;
 }
@@ -65,5 +73,6 @@ module.exports = {
   getAllNotifications,
   getNotificationsByTier,
   acknowledgeNotification,
+  unacknowledgeNotification,
   getUnacknowledgedCount
 };

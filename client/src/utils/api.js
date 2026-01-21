@@ -18,6 +18,11 @@ export async function acknowledgeNotification(id) {
   return response.data;
 }
 
+export async function unacknowledgeNotification(id) {
+  const response = await axios.post(`${API_BASE}/notifications/${id}/unacknowledge`);
+  return response.data;
+}
+
 export async function fetchWorkOrders(status = null) {
   const url = status ? `${API_BASE}/work-orders?status=${status}` : `${API_BASE}/work-orders`;
   const response = await axios.get(url);
