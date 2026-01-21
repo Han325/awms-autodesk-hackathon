@@ -47,43 +47,49 @@ async function fetchSensorData(deviceId) {
   }
 }
 
+// Internal state tracking for light and door (API is unreliable, so we don't fetch from it)
+let lightInternalState = 'off';
+let doorInternalState = 'close';
+
 async function fetchLightState() {
-  try {
-    const response = await axios.get(`${BASE_URL}/device/light/state/`);
-    return {
-      deviceId: response.data.device_id,
-      type: 'light',
-      state: response.data.device_stream_value,
-      timestamp: new Date().toISOString()
-    };
-  } catch (error) {
-    console.error('Error fetching light state:', error.message);
-    return null;
-  }
+  // Don't fetch from API - only use internal state
+  return {
+    deviceId: 1,
+    type: 'light',
+    state: lightInternalState,
+    timestamp: new Date().toISOString()
+  };
+}
+
+function updateLightInternalState(newState) {
+  lightInternalState = newState ? newState.toLowerCase().trim() : 'off';
 }
 
 async function fetchDoorState() {
-  try {
-    const response = await axios.get(`${BASE_URL}/device/door/state`);
-    return {
-      deviceId: response.data.device_id,
-      type: 'door',
-      state: response.data.device_stream_value,
-      timestamp: new Date().toISOString()
-    };
-  } catch (error) {
-    console.error('Error fetching door state:', error.message);
-    return null;
-  }
+  // Don't fetch from API - only use internal state
+  return {
+    deviceId: 1,
+    type: 'door',
+    state: doorInternalState,
+    timestamp: new Date().toISOString()
+  };
+}
+
+function updateDoorInternalState(newState) {
+  doorInternalState = newState ? newState.toLowerCase().trim() : 'close';
 }
 
 async function fetchConveyorState() {
   try {
     const response = await axios.get(`${BASE_URL}/device/conveyor/state`);
+    // Normalize state value to lowercase for consistent comparison
+    const stateValue = response.data.device_stream_value;
+    const normalizedState = stateValue ? stateValue.toLowerCase().trim() : null;
+    
     return {
       deviceId: response.data.device_id,
       type: 'conveyor',
-      state: response.data.device_stream_value,
+      state: normalizedState,
       timestamp: new Date().toISOString()
     };
   } catch (error) {
@@ -104,4 +110,4 @@ async function fetchAllSensors() {
   return results.filter(r => r !== null);
 }
 
-module.exports = { fetchAllSensors };
+module.exports = { fetchAllSensors, updateLightInternalState, updateDoorInternalState };

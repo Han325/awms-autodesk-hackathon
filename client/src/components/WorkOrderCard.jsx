@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRelativeTime } from '../hooks/useRelativeTime';
 import WorkOrderModal from './WorkOrderModal';
 
-function WorkOrderCard({ workOrder }) {
+function WorkOrderCard({ workOrder, sensors, onResolved }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const relativeTime = useRelativeTime(workOrder.createdAt);
 
@@ -42,6 +42,8 @@ function WorkOrderCard({ workOrder }) {
         workOrder={workOrder}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        sensors={sensors}
+        onResolved={onResolved}
       />
     </>
   );

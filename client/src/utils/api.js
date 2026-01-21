@@ -33,3 +33,22 @@ export async function updateWorkOrder(id, status, assignedTo = null) {
   const response = await axios.patch(`${API_BASE}/work-orders/${id}`, { status, assignedTo });
   return response.data;
 }
+
+export async function resolveWorkOrder(id, autoClose = false) {
+  const response = await axios.post(`${API_BASE}/work-orders/${id}/resolve`, { autoClose });
+  return response.data;
+}
+
+export async function getDeviceState(locationId, sensorType) {
+  const response = await axios.get(`${API_BASE}/devices/${locationId}/${sensorType}/state`);
+  return response.data;
+}
+
+export async function controlDevice(locationId, sensorType, action) {
+  const response = await axios.post(`${API_BASE}/devices/control`, { 
+    locationId, 
+    sensorType, 
+    action 
+  });
+  return response.data;
+}

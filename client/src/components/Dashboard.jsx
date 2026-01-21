@@ -1,8 +1,9 @@
 import SensorGrid from './SensorGrid';
 import NotificationList from './NotificationList';
 import WorkOrderList from './WorkOrderList';
+import ControlPanel from './ControlPanel';
 
-function Dashboard({ sensors, notifications, workOrders, onRefreshNotifications }) {
+function Dashboard({ sensors, notifications, workOrders, onRefreshNotifications, onRefreshWorkOrders, onRefreshSensors }) {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -30,12 +31,18 @@ function Dashboard({ sensors, notifications, workOrders, onRefreshNotifications 
             <SensorGrid sensors={sensors} />
           </section>
 
+          <ControlPanel sensors={sensors} onStateChange={onRefreshSensors} />
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <NotificationList
               notifications={notifications || []}
               onRefresh={onRefreshNotifications}
             />
-            <WorkOrderList workOrders={workOrders || []} />
+            <WorkOrderList 
+              workOrders={workOrders || []} 
+              sensors={sensors || []} 
+              onRefresh={onRefreshWorkOrders}
+            />
           </div>
         </div>
       </div>

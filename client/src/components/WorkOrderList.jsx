@@ -1,6 +1,6 @@
 import WorkOrderCard from './WorkOrderCard';
 
-function WorkOrderList({ workOrders }) {
+function WorkOrderList({ workOrders, sensors, onRefresh }) {
   const openCount = workOrders.filter(wo => wo.status === 'OPEN').length;
 
   return (
@@ -20,7 +20,7 @@ function WorkOrderList({ workOrders }) {
           </div>
         ) : (
           workOrders.map(wo => (
-            <WorkOrderCard key={wo.id} workOrder={wo} />
+            <WorkOrderCard key={wo.id} workOrder={wo} sensors={sensors} onResolved={onRefresh} />
           ))
         )}
       </div>

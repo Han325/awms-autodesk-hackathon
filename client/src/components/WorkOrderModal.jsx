@@ -1,15 +1,92 @@
+import { useState, useEffect } from 'react';
 import { useTimestamp } from '../hooks/useTimestamp';
+import { resolveWorkOrder, fetchSensors } from '../utils/api';
 
-function WorkOrderModal({ workOrder, isOpen, onClose }) {
+function WorkOrderModal({ workOrder, isOpen, onClose, sensors = [], onResolved }) {
+  const [isResolving, setIsResolving] = useState(false);
+  const [resolveError, setResolveError] = useState(null);
+  const [resolveSuccess, setResolveSuccess] = useState(false);
+  const [currentSensorState, setCurrentSensorState] = useState(null);
+
+  const createdAt = useTimestamp(workOrder?.createdAt);
+  const updatedAt = useTimestamp(workOrder?.updatedAt);
+
+  // Fetch current sensor state when modal opens
+  useEffect(() => {
+    if (isOpen && workOrder && workOrder.category === 'EQUIPMENT_STATE') {
+      const sensor = sensors.find(s => 
+        s.deviceId === workOrder.deviceId && 
+        s.type === workOrder.sensor
+      );
+      setCurrentSensorState(sensor?.state || null);
+    } else {
+      setCurrentSensorState(null);
+    }
+    setResolveError(null);
+    setResolveSuccess(false);
+  }, [isOpen, workOrder, sensors]);
+
   if (!isOpen || !workOrder) return null;
-
-  const createdAt = useTimestamp(workOrder.createdAt);
-  const updatedAt = useTimestamp(workOrder.updatedAt);
 
   const statusColors = {
     OPEN: 'bg-red-500 text-white',
     IN_PROGRESS: 'bg-orange-500 text-white',
     CLOSED: 'bg-green-500 text-white'
+  };
+
+  // Check if quick actions are available
+  const isEquipmentState = workOrder.category === 'EQUIPMENT_STATE';
+  const controllableSensors = ['conveyor', 'door', 'light'];
+  const canResolve = isEquipmentState && 
+                     controllableSensors.includes(workOrder.sensor) && 
+                     (workOrder.status === 'OPEN' || workOrder.status === 'IN_PROGRESS');
+
+  // Get action button text based on sensor type and current state
+  const getActionButtonText = () => {
+    if (workOrder.sensor === 'conveyor' && currentSensorState === 'stopped') {
+      return 'Start Conveyor';
+    } else if (workOrder.sensor === 'door' && currentSensorState === 'open') {
+      return 'Close Door';
+    } else if (workOrder.sensor === 'light' && currentSensorState === 'off') {
+      return 'Turn On Light';
+    }
+    return null;
+  };
+
+  const handleQuickResolve = async () => {
+    setIsResolving(true);
+    setResolveError(null);
+    setResolveSuccess(false);
+
+    try {
+      const result = await resolveWorkOrder(workOrder.id, false);
+      if (result.success) {
+        setResolveSuccess(true);
+        // Notify parent to refresh work orders
+        if (onResolved) {
+          onResolved();
+        }
+        // Refresh sensor state after a short delay
+        setTimeout(async () => {
+          try {
+            const updatedSensors = await fetchSensors();
+            const sensor = updatedSensors.find(s => 
+              s.deviceId === workOrder.deviceId && 
+              s.type === workOrder.sensor
+            );
+            setCurrentSensorState(sensor?.state || null);
+          } catch (err) {
+            console.error('Error fetching updated sensor state:', err);
+          }
+        }, 2000);
+      } else {
+        setResolveError(result.error || 'Failed to resolve work order');
+      }
+    } catch (error) {
+      setResolveError(error.message || 'Failed to resolve work order');
+    } finally {
+      setIsResolving(false);
+    }
   };
 
   return (
@@ -99,9 +176,52 @@ function WorkOrderModal({ workOrder, isOpen, onClose }) {
               </div>
             </div>
 
+            {/* Quick Actions Section */}
+            {canResolve && (
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="text-sm font-semibold text-blue-900 mb-3">Quick Resolution</h3>
+                {currentSensorState && (
+                  <div className="mb-3">
+                    <span className="text-xs text-gray-600">Current State: </span>
+                    <span className="text-sm font-medium text-gray-900 capitalize">{currentSensorState}</span>
+                  </div>
+                )}
+                {getActionButtonText() && (
+                  <div className="space-y-2">
+                    <button
+                      onClick={handleQuickResolve}
+                      disabled={isResolving}
+                      className={`w-full px-4 py-2 rounded-md font-medium transition-colors ${
+                        isResolving
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-blue-600 text-white hover:bg-blue-700'
+                      }`}
+                    >
+                      {isResolving ? 'Executing...' : getActionButtonText()}
+                    </button>
+                    {resolveSuccess && (
+                      <div className="text-sm text-green-600 bg-green-50 p-2 rounded">
+                        ✓ Action executed successfully! Sensor state will update shortly.
+                      </div>
+                    )}
+                    {resolveError && (
+                      <div className="text-sm text-red-600 bg-red-50 p-2 rounded">
+                        ✗ Error: {resolveError}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {!getActionButtonText() && (
+                  <p className="text-sm text-gray-600">
+                    Sensor state is already in desired state or cannot be determined.
+                  </p>
+                )}
+              </div>
+            )}
+
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 flex gap-3">
             <button
               onClick={onClose}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"

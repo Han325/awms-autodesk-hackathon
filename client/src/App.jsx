@@ -29,12 +29,20 @@ function App() {
     };
   }, []);
 
-  const { data: sensors, loading: sensorsLoading } = usePolling(fetchSensors, 3000);
+  const { data: sensors, loading: sensorsLoading, refresh: refreshSensors } = usePolling(fetchSensors, 3000);
   const { data: notifications, loading: notificationsLoading } = usePolling(fetchNotifications, 3000);
   const { data: workOrders, loading: workOrdersLoading } = usePolling(() => fetchWorkOrders('open'), 3000);
 
   const handleRefreshNotifications = () => {
     // The polling hook will automatically refresh on next interval
+  };
+
+  const handleRefreshWorkOrders = () => {
+    // The polling hook will automatically refresh on next interval
+  };
+
+  const handleRefreshSensors = () => {
+    refreshSensors();
   };
 
   if (currentPath === '/admin') {
@@ -55,6 +63,8 @@ function App() {
       notifications={notifications || []}
       workOrders={workOrders || []}
       onRefreshNotifications={handleRefreshNotifications}
+      onRefreshWorkOrders={handleRefreshWorkOrders}
+      onRefreshSensors={handleRefreshSensors}
     />
   );
 }

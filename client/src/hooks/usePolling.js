@@ -1,35 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export function usePolling(fetchFn, interval = 3000) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const poll = useCallback(async () => {
+    try {
+      const result = await fetchFn();
+      setData(result);
+      setLoading(false);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  }, [fetchFn]);
 
   useEffect(() => {
     let mounted = true;
     let timeoutId;
 
-    async function poll() {
-      try {
-        const result = await fetchFn();
-        if (mounted) {
-          setData(result);
-          setLoading(false);
-          setError(null);
-        }
-      } catch (err) {
-        if (mounted) {
-          setError(err.message);
-          setLoading(false);
-        }
-      }
-
+    async function doPoll() {
+      await poll();
       if (mounted) {
-        timeoutId = setTimeout(poll, interval);
+        timeoutId = setTimeout(doPoll, interval);
       }
     }
 
-    poll();
+    doPoll();
 
     return () => {
       mounted = false;
@@ -37,7 +37,11 @@ export function usePolling(fetchFn, interval = 3000) {
         clearTimeout(timeoutId);
       }
     };
-  }, [fetchFn, interval]);
+  }, [poll, interval, refreshTrigger]);
 
-  return { data, loading, error };
+  const refresh = useCallback(() => {
+    setRefreshTrigger(prev => prev + 1);
+  }, []);
+
+  return { data, loading, error, refresh };
 }
